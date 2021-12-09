@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package code;
+
+option go_package = "/code";
+
+service CodeService {
+    rpc GetResult (Request) returns (Response) {}
+}
+
+message Request {
+    string code = 1;
+}
+
+message Response {
+    string result = 1;
+}
