@@ -20,7 +20,12 @@ func (s *Server) GetResult(ctx context.Context, in *Request) (*Response, error) 
 	fmt.Println(in.Code)
 	// 内部処理---------------------------------------
 	file_name := writeFile(in.Code)
+	
 	result := dockerRun(file_name)
+
+	exec.Command(
+		"rm","/go/src/work/" + file_name,
+	).Run()
 	// ---------------------------------------
 	// ここでサーバーがクライアントにレスポンスを返す
     return &Response{Result: result}, nil
@@ -32,7 +37,7 @@ func dockerRun(file_name string) string {
 	// コンテナ間マウント
 	cmd := exec.Command(
 		"docker","run","-i","--rm",
-		"--volumes-from","code",
+		"--volumes-from","grpc",
 		"-w","/go/src/work",
 		"python:latest",
 		"python", file_name,
