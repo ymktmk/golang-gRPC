@@ -1,17 +1,23 @@
+// protoのバージョン
 syntax = "proto3";
 
+// パッケージ名を指定
 package code;
 
+// コードが自動生成されるディレクトリを指定しています。
 option go_package = "/code";
 
+// APIにおけるサービス定義
 service CodeService {
     rpc GetResult (Request) returns (Response) {}
 }
 
+// リクエストのメッセージ型を定義
 message Request {
     string code = 1;
 }
 
+// レスポンスのメッセージ型を定義
 message Response {
     string result = 1;
 }

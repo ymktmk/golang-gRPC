@@ -10,24 +10,25 @@ import (
 func main() {
 	
 	// gRPC
-	fmt.Println("Hello gRPC API Server !")
+	fmt.Println("Hello gRPC Server !")
 
 	// listenするportを設定します
 	lis, err := net.Listen("tcp",":9000")
 	
 	// エラーハンドリング
 	if err != nil {
-        fmt.Println("error")
+        fmt.Println(err)
 	}
 
-	s := code.Server{}
-	
+	// gRPCサーバーの生成
 	grpcServer := grpc.NewServer()
 	
-	code.RegisterCodeServiceServer(grpcServer, &s)
+	// 自動生成された関数に、サーバと実際に処理を行うメソッドを実装したハンドラを設定します。
+	code.RegisterCodeServiceServer(grpcServer, &code.Server{})
 	
-	// エラーハンドリング
+	// サーバーを起動
     if err := grpcServer.Serve(lis); err != nil {
         fmt.Println("error")
-    }
+	}
+	
 }
